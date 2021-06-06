@@ -72,6 +72,7 @@ public class StockControllerGen {
 		pathnames = f.list();
 		OptionData od = new OptionData();
 		for (String pathname : pathnames) {
+			try {
 			editcsv(G_STOCKS_STOCK_CSV + pathname);
 			rangeList = popInsVals(priceMap, map, listMap,pathname.split("-")[3]);
 			try (Reader reader = new FileReader(G_STOCKS_STOCK_CSV + pathname);
@@ -103,7 +104,7 @@ public class StockControllerGen {
 						String openInterst = record.get(1);
 						String volume = record.get(3);
 						od1.setVolume(volume);
-						od1.setOpeninterst(openInterst);
+						od1.setOpeninterst(openInterst.replace(",", ""));
 						od1.setInsName(pathname.split("-")[3]);
 						od1.setOptionType("CALL");
 						od1.setPremium(record.get(5));
@@ -117,8 +118,8 @@ public class StockControllerGen {
 					}
 				}
 			}
-		}
-		for (String pathname : pathnames) {
+		//}
+		//for (String pathname : pathnames) {
 			rangeList = popInsVals(priceMap, map, listMap,pathname.split("-")[3]);
 			try (Reader reader = new FileReader(G_STOCKS_STOCK_CSV + pathname);
 
@@ -142,7 +143,7 @@ public class StockControllerGen {
 						String openInterst = record.get(21);
 						String volume = record.get(19);
 						od1.setVolume(volume);
-						od1.setOpeninterst(openInterst);
+						od1.setOpeninterst(openInterst.replace(",", ""));
 						od1.setInsName(pathname.split("-")[3]);
 						od1.setOptionType("PUT");
 						od1.setPremium(record.get(17));
@@ -155,6 +156,10 @@ public class StockControllerGen {
 						optionRepository.save(od1);
 					}
 				}
+			}
+			}
+			catch(Exception e) {
+				e.printStackTrace();
 			}
 		}
 		return "success";
@@ -177,18 +182,18 @@ public class StockControllerGen {
 	}
 
 	private void priceMap(Map<String, Integer> priceMap) {
-		priceMap.put(NIFTY, 15435);
-		priceMap.put(SBI, 422);
-		priceMap.put(AXIS, 743);
-		priceMap.put(HDFCBANK, 1507);
-		priceMap.put(HDFC, 2543);
-		priceMap.put(RELIANCE, 2094);
+		priceMap.put(NIFTY, 15670);
+		priceMap.put(SBI, 433);
+		priceMap.put(AXIS, 742);
+		priceMap.put(HDFCBANK, 1501);
+		priceMap.put(HDFC, 2619);
+		priceMap.put(RELIANCE, 2190);
 		priceMap.put(TCS, 3143);
-		priceMap.put(INFY, 1406);
+		priceMap.put(INFY, 1385);
 		priceMap.put(ICICI, 643);
-		priceMap.put(ITC, 213);
-		priceMap.put(FINNIFTY, 16495);
-		priceMap.put(BANKNIFTY, 35141);
+		priceMap.put(ITC, 209);
+		priceMap.put(FINNIFTY, 16744);
+		priceMap.put(BANKNIFTY, 35291);
 	}
 
 	private Set<Integer> popInsVals(Map<String, Integer> priceMap, Map<String, Integer> map,
